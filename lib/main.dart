@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 //material: estrutura padronizada - importante lembrar que é uma estrutura por padrão do android
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 void main() {
   runApp(EcoradarApp());
@@ -107,7 +108,7 @@ class NewsListPage extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: ListTile(
-            leading: Icon(Icons.eco, color: Colors.green, size: 32),
+            leading: Icon(Icons.eco_outlined, color: Colors.green, size: 32),
             //leading = ícone antes do text
             title: Text(
               news[index].title,
@@ -138,19 +139,62 @@ class NewsDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(news.title)),
+      appBar: AppBar(title: Text("Detalhes da notícia")),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(22.0),
         child: Column(
           children: [
             Text(
               news.title,
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 15),
+            SizedBox(height: 20),
+
             Text(news.content, style: TextStyle(fontSize: 18)),
+
+            SizedBox(height: 300),
+
+            Column(
+              children: [
+                GestureDetector(
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.greenAccent,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_back, color: Colors.white),
+                      onPressed: () => Navigator.pop(context),
+                      //Navigator.pop(context) = remove a tela atual do topo, revelando automaticamente a HomePage que está logo abaixo
+                    ),
+                  ),
+                ),
+                SizedBox(height: 12),
+                Text("Voltar", style: TextStyle(fontSize: 12)),
+              ],
+            ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class MapPage extends StatelessWidget {
+  const MapPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Mapa")),
+      body: GoogleMap(
+        initialCameraPosition: CameraPosition(
+          target: LatLng(-23.55052, -46.63308),
+          zoom: 12,
+        ),
+        mapType: MapType.normal,
       ),
     );
   }
